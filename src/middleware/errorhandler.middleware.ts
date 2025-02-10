@@ -1,14 +1,21 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import Errorhandler from "../utils/ErrorHandler";
 
 export const ErrorhandlerMiddleware = (
-  Error: Errorhandler,
+  error: Errorhandler,
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ) => {
-  const statusCode = Error.statuscode || 500;
-  const message = Error.message || "Internal server error";
+  const statusCode = error.statuscode || 500;
+  const message = error.message || "Internal server error";
+
+  if (res.headersSent) {
+    return next(error); // Delegate to the default error handler if headers are already sent
+  }
+
   res.status(statusCode).json({
+    success: false,
     message,
   });
 };
