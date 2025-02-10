@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const uri: string = "mongodb://127.0.0.1:27017/expense-manager";
+const uri: string = "mongodb+srv://rohanthakur89768:dvLTfVxMiUI43sgT@cluster0.cxmlf.mongodb.net/";
 
 async function connectDatabase() {
   try {
