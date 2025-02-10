@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const expense_controller_1 = require("../controllers/expense.controller");
+const Auth_middleware_1 = require("../middleware/Auth.middleware");
+const router = (0, express_1.Router)();
+router.post("/create", Auth_middleware_1.isAuthenticated, expense_controller_1.createExpense);
+router.get("/prevweek", Auth_middleware_1.isAuthenticated, expense_controller_1.getExpenseByWeek);
+router.get("/prevweekreport", Auth_middleware_1.isAuthenticated, expense_controller_1.getweeklyExpenseReportforGraph);
+router.get("/monthly", Auth_middleware_1.isAuthenticated, expense_controller_1.getexpensebymonth);
+router.get("/monthly_graph", Auth_middleware_1.isAuthenticated, expense_controller_1.Get_Expense_monthly_Graph);
+router.get('/get-daily/:date', Auth_middleware_1.isAuthenticated, expense_controller_1.GetExpensesByDay);
+router.get("/report", Auth_middleware_1.isAuthenticated, expense_controller_1.getFullyearReport);
+exports.default = router;

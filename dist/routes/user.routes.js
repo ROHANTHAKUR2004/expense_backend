@@ -1,0 +1,21 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const user_controller_1 = require("../controllers/user.controller");
+const Auth_middleware_1 = require("../middleware/Auth.middleware");
+const multer_middleware_1 = __importDefault(require("../middleware/multer.middleware"));
+const UserRouter = (0, express_1.Router)();
+UserRouter.route("/register").post(multer_middleware_1.default.single("profileurl"), user_controller_1.registeruser);
+UserRouter.route("/login").post(user_controller_1.login);
+UserRouter.route("/logout").post(user_controller_1.logout);
+UserRouter.put("/changeProfile", Auth_middleware_1.isAuthenticated, multer_middleware_1.default.single("profileurl"), user_controller_1.UpdateProfilePicture);
+UserRouter.put("/update", Auth_middleware_1.isAuthenticated, user_controller_1.UpdateProfile);
+UserRouter.delete("/delete", Auth_middleware_1.isAuthenticated, user_controller_1.DeleteAccount);
+UserRouter.put("/updatepassword", Auth_middleware_1.isAuthenticated, user_controller_1.updatepassword);
+UserRouter.post("/forgotpassword", user_controller_1.ForgotPassword);
+UserRouter.post("/resetpassword/:token", user_controller_1.ResetPassword);
+UserRouter.get("/userInfo", Auth_middleware_1.isAuthenticated, user_controller_1.GetUserInfo);
+exports.default = UserRouter;
